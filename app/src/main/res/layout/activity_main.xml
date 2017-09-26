@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context="com.hemantjoshi.scarnedice.MainActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/computerScore"
+            android:fontFamily="monospace"
+            tools:text="Computer's Score: "/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:layout_below="@id/computerScore"
+            android:fontFamily="monospace"
+            android:textSize="20sp"
+            android:id="@+id/userScore"
+            tools:text="User's Score: "/>
+
+    <ImageView
+        android:clickable="true"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/userScore"
+        android:src="@drawable/dice1"
+        android:id="@+id/diceFace"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/diceFace">
+
+        <Button
+            android:layout_weight="1"
+            style="?android:attr/buttonStyleToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hold"
+            android:id="@+id/hold"
+            android:textSize="20sp"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:layout_weight="1"
+            style="?android:attr/buttonStyleToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:id="@+id/reset"
+            android:textSize="20sp"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
