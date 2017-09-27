@@ -1,5 +1,7 @@
 package com.hemantjoshi.scarnedice;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,8 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             computerScore = 0,
             computerCurrentScore = 0;
     private Random random;
-    private final int USER_CHOICE = 1;
-    private final int COMPUTER_CHOICE = 2;
+    private boolean isClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int score = random.nextInt(6) + 1;
         //Toast.makeText(this,"The score is " + String.valueOf(score),Toast.LENGTH_SHORT).show();
         if(id != R.id.hold && score != 1){
+            isClicked = true;
             mRollDice.setClickable(true);
             hold.setClickable(true);
             userCurrentScore += score;
@@ -93,31 +95,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void computerTurn(final View view) {
         int id = view.getId();
         hold.setClickable(false);
-        Thread t = new Thread(new Runnable() {
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                int score = random.nextInt(6) + 1;
+//                while(score != 1){
+//                    computerCurrentScore += score;
+//                    score = random.nextInt(6) + 1;
+//                    try{
+//                        Thread.sleep(1000);
+//                    }catch (InterruptedException e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        computerScore = computerCurrentScore;
+//                        mComputerScore.setText("Computer Score "+ String.valueOf(computerScore));
+//                        Toast.makeText(MainActivity.this,"User's Turn",Toast.LENGTH_SHORT).show();
+//                        userTurn(view);
+//                    }
+//                });
+//            }
+//        });
+//        t.start();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 int score = random.nextInt(6) + 1;
-                while(score != 1){
+                if(score != 1){
                     computerCurrentScore += score;
-                    score = random.nextInt(6) + 1;
-                    try{
-                        Thread.sleep(1000);
-                    }catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
+                }else{
+                    computerScore = computerCurrentScore;
+                    mComputerScore.setText("Computer Score "+ String.valueOf(computerScore));
+                    Toast.makeText(MainActivity.this,"User's Turn",Toast.LENGTH_SHORT).show();
+                    View view1 = findViewById(R.id.diceFace);
+                    view1.performClick();
                 }
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        computerScore = computerCurrentScore;
-                        mComputerScore.setText("Computer Score "+ String.valueOf(computerScore));
-                        Toast.makeText(MainActivity.this,"User's Turn",Toast.LENGTH_SHORT).show();
-                        userTurn(view);
-                    }
-                });
+                handler.postDelayed(this,500);
             }
-        });
-        t.start();
+        };
+        handler.postDelayed(runnable,0);
     }
 }
